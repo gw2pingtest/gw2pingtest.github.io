@@ -48,10 +48,7 @@
                     },
                     ticks: {
                         autoSkip: true,
-                        maxTicksLimit: 20,
-                        callback: function(value, index, ticks) {
-                            return (value / 1000).toFixed(2);
-                        }
+                        maxTicksLimit: 20
                     }
                 }
             }
@@ -62,12 +59,12 @@
 
     setInterval(function () {
         var start = window.performance.now();
-        chart.data.labels.push(start);
+        chart.data.labels.push((start / 1000).toFixed(2));
         for (const dataset of chart.data.datasets) {
             fetch(dataset.url).then((val) => {
                 var latency = window.performance.now() - start;
                 dataset.data.push(latency);
-                chart.update();
+                chart.update('none');
             })
         }
     }, 1000);
