@@ -65,7 +65,7 @@
             var start = window.performance.now();
             fetch(dataset.url).then((val) => {
                 var latency = window.performance.now() - start;
-                chart.data.labels.push(start - begin);
+                chart.data.labels.push(start);
                 dataset.data.push(latency);
                 chart.update();
             })
