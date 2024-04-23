@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <canvas id="chart"></canvas>
+</body>
+<script>
+    const canvas = document.getElementById('myChart');
+    canvas.height = 100;
+
+    const data = {
+        labels: ["US", "EU"],
+        datasets: [
+            {
+                label: 'US',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [],
+                url: "ec2.us-east-1.amazonaws.com/ping"
+            },
+            {
+                label: 'EU',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [],
+                url: "ec2.eu-central-1.amazonaws.com/ping"
+            }
+        ]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+
+    const chart = new Chart(canvas, config);
+
+    setInterval(function () {
+        for (const dataset of chart.data.datasets) {
+            fetch(dataset.url).then((val) => {
+                console.log(val);
+            })
+        }
+    }, 500);
+
+    setInterval(function () {
+        chart.update();
+    }, 1000);
+</script>
+
+</html>
