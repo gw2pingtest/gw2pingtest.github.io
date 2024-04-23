@@ -16,16 +16,16 @@
         labels: [],
         datasets: [
             {
-                label: 'US',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                label: 'NA',
+                backgroundColor: 'rgb(71, 145, 92)',
+                borderColor: 'rgb(71, 145, 92)',
                 data: [],
                 url: "https://ec2.us-east-1.amazonaws.com/ping"
             },
             {
                 label: 'EU',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgb(231, 76, 60)',
+                borderColor: 'rgb(231, 76, 60)',
                 data: [],
                 url: "https://ec2.eu-central-1.amazonaws.com/ping"
             }
@@ -35,7 +35,27 @@
     const config = {
         type: 'line',
         data: data,
-        options: {}
+        options: {
+            scales: {
+                y: {
+                    title: {
+                        text: 'ping (ms)'
+                    }
+                },
+                x: {
+                    title: {
+                        text: 'time'
+                    },
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 20,
+                        callback: function(value, index, ticks) {
+                            return (value / 1000).toFixed(2);
+                        }
+                    }
+                }
+            }
+        }
     };
 
     const chart = new Chart(canvas, config);
@@ -45,14 +65,11 @@
             var start = window.performance.now();
             fetch(dataset.url).then((val) => {
                 var latency = window.performance.now() - start;
-                chart.data.labels.push(start);
-                dataset.data.push(latency)
+                chart.data.labels.push(start - begin);
+                dataset.data.push(latency);
+                chart.update();
             })
         }
-    }, 500);
-
-    setInterval(function () {
-        chart.update();
     }, 1000);
 </script>
 
