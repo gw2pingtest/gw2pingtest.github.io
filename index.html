@@ -42,8 +42,10 @@
 
     setInterval(function () {
         for (const dataset of chart.data.datasets) {
+            var start = window.performance.now();
             fetch(dataset.url).then((val) => {
-                console.log(val);
+                var latency = window.performance.now() - start;
+                console.log(latency);
             })
         }
     }, 500);
