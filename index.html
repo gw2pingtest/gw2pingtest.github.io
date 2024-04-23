@@ -41,7 +41,7 @@
     const chart = new Chart(canvas, config);
 
     setInterval(function () {
-        for (const dataset of chart.data.datasets) {
+        for (dataset of chart.data.datasets) {
             var start = window.performance.now();
             fetch(dataset.url).then((val) => {
                 var latency = window.performance.now() - start;
