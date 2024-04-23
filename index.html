@@ -63,9 +63,9 @@
     setInterval(function () {
         for (const dataset of chart.data.datasets) {
             var start = window.performance.now();
+            chart.data.labels.push(start);
             fetch(dataset.url).then((val) => {
                 var latency = window.performance.now() - start;
-                chart.data.labels.push(start);
                 dataset.data.push(latency);
                 chart.update();
             })
