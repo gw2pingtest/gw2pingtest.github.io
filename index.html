@@ -13,7 +13,7 @@
     canvas.height = 100;
 
     const data = {
-        labels: ["US", "EU"],
+        labels: [],
         datasets: [
             {
                 label: 'US',
@@ -41,10 +41,11 @@
     const chart = new Chart(canvas, config);
 
     setInterval(function () {
-        for (dataset of chart.data.datasets) {
+        for (const dataset of chart.data.datasets) {
             var start = window.performance.now();
             fetch(dataset.url).then((val) => {
                 var latency = window.performance.now() - start;
+                chart.data.labels.push(start);
                 dataset.data.push(latency)
             })
         }
